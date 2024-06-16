@@ -1,0 +1,136 @@
+<!Doctype html>
+<html lang="en">
+
+<head>
+	<link rel="stylesheet" href="style.css">
+	<meta charset="UTF-8">
+	<title>
+		Guide to Self Hosting Foundry VTT
+	</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+	<header id="top">
+		<h1>Guide to Self Hosting Foundry VTT</h1>
+		<h2>How I did it, anyway.<h2>
+	</header>
+	
+	<div id="navigationBar">
+	
+		<a href="#top">HOME</a>
+		<a href="#Preface"> Preface</a>
+		<a href="#webDevelopment"> Web Development</a>
+		<a href="#appDevelopment"> App Development</a>
+		<a href="#pythonProgramming"> Python Programming</a>
+		<a href="#machineLearning"> Machine Learning</a>
+		<a href="#interviewPrep"> Interview Prep</a>
+		
+	</div>
+	
+	<div class="pageContent">
+	
+		<!--<div class="sidebar">
+		
+			<h2>#1 Best Seller</h2>
+			<h3> Wall Street Coder</h3>
+			
+		</div>-->
+		
+			<div class="main">
+
+			<h3 id="Preface">Preface</h3>
+			<h4>Some quick details</h4>
+			<!--<img src="">-->
+			<p>Disclaimer: This is not the most elegant or technical method to get a self-hosted setup for Foundry running.  Reddit, the Foundry Discord, even Git have more elegant, and likely more complete, guides to achieving what I do here. 
+				This site started as a way for me to log my journey into more advanced technical spaces (self hosting, virtual machines, reverse proxies, etc.) as well as learning basic HTML and CSS.  
+				It was an incredibly fun and rewarding journey that I am very glad I took. 
+				</p>
+
+			<p>Along with this, there are some techniques that I came across after I had things set up in a way that worked for me that would have saved a significant amount of time and energy.  
+				I will point it out later when it is more appropriate, but I HIGHLY suggest watching  <a href=https://www.youtube.com/watch?v=ey4u7OUAF3c>Network Chuck's video</a> on Cloudflare Zero Trust Tunnels.  
+				It eliminates the need for both port forwarding and reverse proxies since Cloudflare handles those on their end; its amazing.  By the time I learned about it I already had Caddy set up to do the same 
+				thing so there were some conlifcts and I did't take the time to change my process.  Once I lean more into Virtual Machines, I plan to revisit this
+				
+
+			<p>With that out of the way, let’s get into this mess.
+				</p>
+			
+			<h3 id="webDevelopment">Web Development</h3>
+			<h4>Level 2</h4>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ligula risus, vulputate id ultricies et,
+			sollicitudin in
+			erat. Morbi consequat placerat mattis. Phasellus vel dolor vitae nisl tempor sollicitudin eu ac arcu.
+			Quisque quis ex
+			vitae ante vestibulum fermentum luctus vel ipsum. Maecenas rutrum sit amet lorem vitae dignissim. Interdum
+			et malesuada
+			fames ac ante ipsum primis in faucibus. Fusce convallis mi interdum ligula hendrerit lacinia. In ut sodales
+			tortor. Nam
+			in felis viverra, blandit ante quis, accumsan mi. Cras faucibus, ex id tristique ornare, nisi est dictum
+			enim, a
+			scelerisque magna urna et felis. Nullam suscipit lacus justo, vitae ultricies risus varius at. Donec a sem
+			felis. Fusce
+			accumsan lobortis placerat. Sed venenatis, elit et elementum commodo, arcu libero scelerisque nibh, id
+			efficitur tellus
+			orci id mi.</p>
+			
+			<h3 id="appDevelopment">App Development</h3>
+			<h4>Level 3</h4>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ligula risus, vulputate id ultricies et,
+			sollicitudin in
+			erat. Morbi consequat placerat mattis. Phasellus vel dolor vitae nisl tempor sollicitudin eu ac arcu.
+			Quisque quis ex
+			vitae ante vestibulum fermentum luctus vel ipsum. Maecenas rutrum sit amet lorem vitae dignissim. Interdum
+			et malesuada
+			fames ac ante ipsum primis in faucibus. Fusce convallis mi interdum ligula hendrerit lacinia. In ut sodales
+			tortor. Nam
+			in felis viverra, blandit ante quis, accumsan mi. Cras faucibus, ex id tristique ornare, nisi est dictum
+			enim, a
+			scelerisque magna urna et felis. Nullam suscipit lacus justo, vitae ultricies risus varius at. Donec a sem
+			felis. Fusce
+			accumsan lobortis placerat. Sed venenatis, elit et elementum commodo, arcu libero scelerisque nibh, id
+			efficitur tellus
+			orci id mi.</p>
+			
+			<h3 id="pythonProgramming">Python Programming</h3>
+			<h4>Level 4</h4>
+			<p>Maecenas in diam non dolor laoreet ultrices et non ex. Etiam eget ante tortor. Integer vel sagittis tellus,
+			id laoreet
+			dolor. Phasellus tincidunt nec velit quis semper. Quisque sed erat aliquet, euismod neque et, consectetur
+			nunc. Donec
+			sed augue nisi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; In
+			aliquet, arcu
+			et ullamcorper venenatis, ipsum ipsum ultrices ipsum, luctus eleifend risus felis eu neque. Sed neque diam,
+			imperdiet ac
+			imperdiet sed, vestibulum eget odio. Proin condimentum lorem non sem facilisis, et ullamcorper libero
+			pulvinar.
+			Pellentesque a nisl odio. Aliquam eget ante nec libero hendrerit ultrices.</p>
+			
+			<h3 id="machineLearning">Machine Learning</h3>
+			<h4>Level 5</h4>
+			<p>Vestibulum neque metus, semper nec maximus quis, egestas vel nibh. Aliquam tellus mi, egestas vitae nibh a,
+			auctor
+			luctus augue. Curabitur lorem lectus, lobortis eu auctor non, sodales a turpis. Duis molestie enim sed lorem
+			varius, sed
+			aliquet diam commodo. Ut finibus tortor arcu, ac porta velit consequat tincidunt. Vestibulum ut enim at
+			magna sagittis
+			porttitor quis nec mauris. Praesent eget eros felis. Curabitur ultrices fermentum risus eget maximus. Nulla
+			ornare, erat
+			dignissim malesuada vestibulum, eros risus interdum mauris, eu consequat enim nunc nec augue.</p>
+			
+			<h3 id="interviewPrep">Interview Prep</h3>
+			<h4>Level 6</h4>
+			<p>Nulla venenatis felis aliquet, sodales urna nec, laoreet nisi. Duis vitae condimentum metus, vitae
+			pellentesque tellus.
+			Cras vitae magna elit. Etiam porttitor bibendum ligula quis aliquam. Pellentesque quis metus scelerisque est
+			blandit
+			scelerisque. Nunc finibus, mi a tincidunt lacinia, enim metus elementum mi, at tincidunt orci quam quis
+			sapien. Donec
+			sollicitudin augue feugiat, commodo risus ac, luctus massa. Phasellus suscipit nulla nunc. Phasellus euismod
+			in arcu id
+			pulvinar. Etiam varius purus quis efficitur commodo. Fusce fermentum dictum sapien.</p>
+			</div>	
+	</div>
+</body>
+
+</html>

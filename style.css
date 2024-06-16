@@ -1,0 +1,79 @@
+header {
+	
+	color:white;
+	background-color:black;
+	padding: 70px;
+	text-align: center;
+	background-image: url("images/reddice.jpg");
+	background-repeat: no-repeat;
+	/*background-size: cover;-->*/
+	background-position: center;
+	
+	
+}
+
+body{
+	
+	margin: 0;
+	padding: 1%;
+	font-family: ariel, helvetica, sans-sarif;
+	background-color: black;
+	color:white;
+}
+
+#navigationBar {
+	
+	background-color: #333333;
+	position: sticky;
+	top: 0;
+	
+}
+
+#navigationBar a {
+	
+	color:white;
+	text-decoration:none;
+	display:block-inline;
+	padding: 1%;
+	
+}
+
+.pageContent {
+	
+	padding: 1%;
+	display: flex;
+	
+}
+
+.sidebar {
+	
+	flex: 30%;
+	padding-right: 2%;
+	
+}
+
+.main {
+	
+	flex:70%;
+	
+}
+
+<!--img {
+	
+	width: 100%;
+}-->
+
+@media screen and (max-width: 700px) {
+	
+	#navigationBar {
+		
+		position: relative;
+	}
+	
+	.pageContent {
+		
+		flex-direction: column;
+		
+	}
+}
+
