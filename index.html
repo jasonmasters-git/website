@@ -12,7 +12,7 @@
 
 <body>
 	<header id="top">
-		<h1> A Guide to Self Hosting Foundry VTT</h1>
+		<h1> A Guide to Self Hosting Foundry VTT on Windows 11</h1>
 		<h2>How I did it, anyway.<h2>
 	</header>
 	
@@ -20,8 +20,11 @@
 	
 		<a href="#top">HOME</a>
 		<a href="#Preface"> Preface</a>
-		<a href="#webDevelopment"> Web Development</a>
-		<a href="#appDevelopment"> App Development</a>
+		<a href="#domains"> Domains and Registrars</a>
+		<a href="#internalVsExternalIps"> Internal Vs External IPs</a>
+		<a href="#hardwareThatIUsed"> Hardware that I Used</a>
+		<a href="#softwareThatIUsed"> Software that I Used</a>
+		<a href="#installation"> Installation</a>
 		<a href="#pythonProgramming"> Python Programming</a>
 		<a href="#machineLearning"> Machine Learning</a>
 		<a href="#interviewPrep"> Interview Prep</a>
@@ -40,57 +43,61 @@
 			<div class="main">
 
 			<h3 id="Preface">Preface</h3>
-			<h4>Some quick details</h4>
-			<img src="./images/dice.jpg">
-			<p>Disclaimer: This is not the most elegant or technical method to get a self-hosted setup for Foundry running.  Reddit, the Foundry Discord, even Git have more elegant, and likely more complete, guides to achieving what I do here. 
-				This site started as a way for me to log my journey into more advanced technical spaces (self hosting, virtual machines, reverse proxies, etc.) as well as learning basic HTML and CSS.  
-				It was an incredibly fun and rewarding journey that I am very glad I took. 
+			<!--<h4>Some quick details</h4>
+			
+			<!--<img src="./images/dice.jpg">-->
+			
+				<p>Disclaimer: This is not the most elegant or technical method to get a self-hosted Foundry VTT setup running.  Reddit, the Foundry Discord, and even GitHub are bound to have more elegant, and likely more complete, guides to achieving what I do here. 
+					This site started as a way for me to log my journey into more advanced technical spaces (self hosting, virtual machines, reverse proxies, etc.) as well as learning basic HTML and CSS.  
+					It was an incredibly fun and rewarding journey that I am very glad I took. I also plan on creating a series of videos showing the steps I took.  These will come in the future.
 				</p>
 
-			<p>Along with this, there are some techniques that I came across after I had things set up in a way that worked for me that would have saved a significant amount of time and energy.  
-				I will point it out later when it is more appropriate, but I HIGHLY suggest watching  <a href=https://www.youtube.com/watch?v=ey4u7OUAF3c>Network Chuck's video</a> on Cloudflare Zero Trust Tunnels.  
-				It eliminates the need for both port forwarding and reverse proxies since Cloudflare handles those on their end; its amazing.  By the time I learned about it I already had Caddy set up to do the same 
-				thing so there were some conlifcts and I didn't take the time to change my process.  Once I lean more into Virtual Machines, I plan to revisit this
+				<p>Along with this, there are some techniques that I came across after I had things set up in a way that worked for me that would have saved a significant amount of time and energy.  
+					I will point it out later when it is more appropriate, but I <b>HIGHLY</b> suggest watching  <a href=https://www.youtube.com/watch?v=ey4u7OUAF3c>Network Chuck's video</a> on Cloudflare Zero Trust Tunnels.  
+					It eliminates the need for both port forwarding and reverse proxies since Cloudflare handles those on their end; its amazing.  By the time I learned about it I already had Caddy set up to do the same 
+					thing so there were some conlifcts and I didn't take the time to change my process.  Once I lean more into Virtual Machines, I plan to revisit this
+				</p>
+
+				<p>With that out of the way, let’s get into this mess.
+				</p>
+
+			<h3 id="domains"> Domains and Registrars</h3>
+				<p>There are several ways to get a domain to self host.  In my case, I bought a domain from Cloudflare.  It was recommended to me by some Cybersecurity friends and, more importantly, the prices were reasonable.  The domain was around $10 USD per year.  
+					The underlying concepts are the same regardless of which registrar (Cloudflare, GoDaddy, etc) you use.  Again, in my case, I used Cloudflare so the steps I will be going over will show the Cloudflare interface.  
+				</p>
 				
+			<h3 id="internalVsExternalIps"> Internal Vs External IPs</h3>
+				<p> I want to quickly mention internal versus external IP addresses.
+					An internal IP address is an IP address of the devices on your home network.  Its likely something along the lines of 192.168.1.101 or 10.1.10.101. 
+				</p>
 
-			<p>With that out of the way, let’s get into this mess.
+				<p> An external, or public,  IP address  is the IP address that your router uses to send/receive data OUTSIDE of the firewall that is part of the router.
+					These numbers are different. When it comes to port forwarding we are going to need to know our external IP address so we can forward connections from our website domain to the machine hosting Foundry.
+				</p>
+				
+				<p>I am going to reference <a href=https://www.youtube.com/watch?v=ey4u7OUAF3c>Network Chuck's video</a> here as well.  Again, I highly recommend checking out his video and giving that process a whirl as getting things working using a zero trust tunnel will save a large amount of work and hassle.
 				</p>
 			
-			<h3 id="webDevelopment">Web Development</h3>
-			<h4>Level 2</h4>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ligula risus, vulputate id ultricies et,
-			sollicitudin in
-			erat. Morbi consequat placerat mattis. Phasellus vel dolor vitae nisl tempor sollicitudin eu ac arcu.
-			Quisque quis ex
-			vitae ante vestibulum fermentum luctus vel ipsum. Maecenas rutrum sit amet lorem vitae dignissim. Interdum
-			et malesuada
-			fames ac ante ipsum primis in faucibus. Fusce convallis mi interdum ligula hendrerit lacinia. In ut sodales
-			tortor. Nam
-			in felis viverra, blandit ante quis, accumsan mi. Cras faucibus, ex id tristique ornare, nisi est dictum
-			enim, a
-			scelerisque magna urna et felis. Nullam suscipit lacus justo, vitae ultricies risus varius at. Donec a sem
-			felis. Fusce
-			accumsan lobortis placerat. Sed venenatis, elit et elementum commodo, arcu libero scelerisque nibh, id
-			efficitur tellus
-			orci id mi.</p>
+			<h3 id="hardwareThatIUsed"> Hardware that I Used</h3>
+				<p> I use a mini PC for all of my hosting.  Obiviously, you can use whatever hardware you have available to you.  An old laptop? Sure, as long as it meets the minium requirements for Foundry.  You coule even set up a VM on your main machine for
+					incoming connections.  This way connections aren't connecting directly to your main computer.  I would not suggest using you main machine to host anything. 
+				</p>
+			<h3 id="softwareThatIUsed"> Software that I Used</h3>
+			<!--<h4>Level 2</h4>-->
+				<p>The list of software used is rather short:</p>
+
+					<p><b>REQUIRED</b></p>
+					<p><a href=https://foundryvtt.com/>Foundry (download the linux/NodeJS version)</a></p>
+					<p><a href=https://nodejs.org/en/download/prebuilt-installer/current>Node.js (Node actually runs the server)</a></p> 
+					<p><a href=https://caddyserver.com/download>Caddy (Handles the reverse proxy and SSL cert. Might not be necessary due to Zero Trust Tunnels)</a></p>
+
+					<p><b>OPTIONAL</b></p>
+					 <a href=https://pm2.keymetrics.io/>PM2 (for running Node in the background)</a>
+					</p>
 			
-			<h3 id="appDevelopment">App Development</h3>
-			<h4>Level 3</h4>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ligula risus, vulputate id ultricies et,
-			sollicitudin in
-			erat. Morbi consequat placerat mattis. Phasellus vel dolor vitae nisl tempor sollicitudin eu ac arcu.
-			Quisque quis ex
-			vitae ante vestibulum fermentum luctus vel ipsum. Maecenas rutrum sit amet lorem vitae dignissim. Interdum
-			et malesuada
-			fames ac ante ipsum primis in faucibus. Fusce convallis mi interdum ligula hendrerit lacinia. In ut sodales
-			tortor. Nam
-			in felis viverra, blandit ante quis, accumsan mi. Cras faucibus, ex id tristique ornare, nisi est dictum
-			enim, a
-			scelerisque magna urna et felis. Nullam suscipit lacus justo, vitae ultricies risus varius at. Donec a sem
-			felis. Fusce
-			accumsan lobortis placerat. Sed venenatis, elit et elementum commodo, arcu libero scelerisque nibh, id
-			efficitur tellus
-			orci id mi.</p>
+			<h3 id="installation">Installation</h3>
+			<!--<h4>Level 3</h4>-->
+			<p>The first step is to download the Linux/NodeJS version of Froundry.  There is no executeable for this since we will be using node to run Foundry on a web server.</p>
 			
 			<h3 id="pythonProgramming">Python Programming</h3>
 			<h4>Level 4</h4>
