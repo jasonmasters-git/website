@@ -25,9 +25,11 @@
 		<a href="#hardwareThatIUsed"> Hardware that I Used</a>
 		<a href="#softwareThatIUsed"> Software that I Used</a>
 		<a href="#installation"> Installation</a>
-		<a href="#pythonProgramming"> Python Programming</a>
-		<a href="#machineLearning"> Machine Learning</a>
-		<a href="#interviewPrep"> Interview Prep</a>
+		<a href="#runningNode"> Running Node</a>
+		<a href="#settingUpAndRunningCaddy"> Setting Up and Running Caddy</a>
+		<a href="#portForwarding"> Port Forwarding</a>
+		<a href="#finalTests"> Final Tests</a>
+		<a href="#closingThoughs"> Closing Thoughts</a>
 		
 	</div>
 	
@@ -47,23 +49,26 @@
 			
 			<!--<img src="./images/dice.jpg">-->
 			
-				<p>Disclaimer: This is not the most elegant or technical method to get a self-hosted Foundry VTT setup running.  Reddit, the Foundry Discord, and even GitHub are bound to have more elegant, and likely more complete, guides to achieving what I do here. 
+				<p>Disclaimer: This is not the most elegant or technical method to get a self-hosted Foundry VTT setup running.  Reddit, the Foundry Discord, and even GitHub are bound to have
+					 more elegant, and likely more complete, guides to achieving what I do here. 
 					This site started as a way for me to log my journey into more advanced technical spaces (self hosting, virtual machines, reverse proxies, etc.) as well as learning basic HTML and CSS.  
 					It was an incredibly fun and rewarding journey that I am very glad I took. I also plan on creating a series of videos showing the steps I took.  These will come in the future.
 				</p>
 
 				<p>Along with this, there are some techniques that I came across after I had things set up in a way that worked for me that would have saved a significant amount of time and energy.  
-					I will point it out later when it is more appropriate, but I <b>HIGHLY</b> suggest watching  <a href=https://www.youtube.com/watch?v=ey4u7OUAF3c>Network Chuck's video</a> on Cloudflare Zero Trust Tunnels.  
-					It eliminates the need for both port forwarding and reverse proxies since Cloudflare handles those on their end; its amazing.  By the time I learned about it I already had Caddy set up to do the same 
-					thing so there were some conlifcts and I didn't take the time to change my process.  Once I lean more into Virtual Machines, I plan to revisit this
+					I will point it out later when it is more appropriate, but I <b>HIGHLY</b> suggest watching  <a href=https://www.youtube.com/watch?v=ey4u7OUAF3c>Network Chuck's video</a> on Cloudflare 
+					Zero Trust Tunnels.  
+					It eliminates the need for both port forwarding and reverse proxies since Cloudflare handles those on their end; its amazing.  By the time I learned about it I already had 
+					Caddy set up to do the same thing so there were some conlifcts and I didn't take the time to change my process.  Once I lean more into Virtual Machines, I plan to revisit this
 				</p>
 
 				<p>With that out of the way, let’s get into this mess.
 				</p>
 
 			<h3 id="domains"> Domains and Registrars</h3>
-				<p>There are several ways to get a domain to self host.  In my case, I bought a domain from Cloudflare.  It was recommended to me by some Cybersecurity friends and, more importantly, the prices were reasonable.  The domain was around $10 USD per year.  
-					The underlying concepts are the same regardless of which registrar (Cloudflare, GoDaddy, etc) you use.  Again, in my case, I used Cloudflare so the steps I will be going over will show the Cloudflare interface.  
+				<p>There are several ways to get a domain to self host.  In my case, I bought a domain from Cloudflare.  It was recommended to me by some Cybersecurity friends and, more 
+					importantly, the prices were reasonable.  The domain was around $10 USD per year.  The underlying concepts are the same regardless of which registrar (Cloudflare, GoDaddy, 
+					etc) you use.  Again, in my case, I used Cloudflare so the steps I will be going over will show the Cloudflare interface.  
 				</p>
 				
 			<h3 id="internalVsExternalIps"> Internal Vs External IPs</h3>
@@ -71,16 +76,20 @@
 					An internal IP address is an IP address of the devices on your home network.  Its likely something along the lines of 192.168.1.101 or 10.1.10.101. 
 				</p>
 
-				<p> An external, or public,  IP address  is the IP address that your router uses to send/receive data OUTSIDE of the firewall that is part of the router.
-					These numbers are different. When it comes to port forwarding we are going to need to know our external IP address so we can forward connections from our website domain to the machine hosting Foundry.
+				<p> An external, or public, IP address  is the IP address that your router uses to send/receive data OUTSIDE of the firewall that is part of the router.
+					These numbers are different. When it comes to port forwarding we are going to need to know our external IP address so we can forward connections from our website domain to 
+					the machine hosting Foundry.
 				</p>
 				
 				<p>I am going to reference <a href=https://www.youtube.com/watch?v=ey4u7OUAF3c>Network Chuck's video</a> here as well.  Again, I highly recommend checking out his video and giving that process a whirl as getting things working using a zero trust tunnel will save a large amount of work and hassle.
 				</p>
 			
 			<h3 id="hardwareThatIUsed"> Hardware that I Used</h3>
-				<p> I use a mini PC for all of my hosting.  Obiviously, you can use whatever hardware you have available to you.  An old laptop? Sure, as long as it meets the minium requirements for Foundry.  You coule even set up a VM on your main machine for
+				<p> I use a mini PC for all of my hosting.  Obiviously, you can use whatever hardware you have available to you.  An old laptop? Sure, as long as it meets the minium requirements for Foundry and has a
+					decent amount of storage space.  You could even set up a VM on your main machine for
 					incoming connections.  This way connections aren't connecting directly to your main computer.  I would not suggest using you main machine to host anything. 
+				</p>
+				<p>I would suggest getting all the hard drive space you can.  Do you need 1TB for this?  Probably not, but I'd rather have extra hard drive space instead of not enough.	
 				</p>
 			<h3 id="softwareThatIUsed"> Software that I Used</h3>
 			<!--<h4>Level 2</h4>-->
@@ -89,53 +98,88 @@
 					<p><b>REQUIRED</b></p>
 					<p><a href=https://foundryvtt.com/>Foundry (download the linux/NodeJS version)</a></p>
 					<p><a href=https://nodejs.org/en/download/prebuilt-installer/current>Node.js (Node actually runs the server)</a></p> 
-					<p><a href=https://caddyserver.com/download>Caddy (Handles the reverse proxy and SSL cert. Might not be necessary due to Zero Trust Tunnels)</a></p>
+					<p><a href=https://caddyserver.com/>Caddy (Handles the reverse proxy and SSL cert. Might not be necessary due to Zero Trust Tunnels)</a></p>
 
 					<p><b>OPTIONAL</b></p>
 					 <a href=https://pm2.keymetrics.io/>PM2 (for running Node in the background)</a>
 					</p>
+
+					
 			
 			<h3 id="installation">Installation</h3>
 			<!--<h4>Level 3</h4>-->
-			<p>The first step is to download the Linux/NodeJS version of Froundry.  There is no executeable for this since we will be using node to run Foundry on a web server.</p>
+				<p>The first step is to download the Linux/NodeJS version of Froundry.  There is no executeable for this since we will be using Node to run Foundry on a web server.  Just extract the files do the desktop.
+					</p>
+				
+				<p>The next step is install Node.js.  This is the webserver that will run Foundry. </p>
+
+				<p> We will be installing Caddy through <a href=https://chocolatey.org/>Chocolatey</a> since, to be blunt, I'm too lazy to mess with %PATH% variables and all that.  It likely isn't all that hard, but I just 
+					went the Chocolatey route.</p>
+
+				<p>I am going to reference <a href=https://www.youtube.com/watch?v=ey4u7OUAF3c>Network Chuck's video</a> here as well.  Again, I highly recommend checking out his video and giving that process a whirl as 
+					getting things working using a zero trust tunnel will save a large amount of work and hassle.  It essentially elimates the need for Caddy.
+					</p>
+				
+					
+			<h3 id="runningNode">Running Node</h3>
+			<!--<h4>Level 4</h4>-->
+
+			<p>Installing Node, while not hard, goes to some interesting places. This is why it is a good idea to host on a machine that isn't your every-day-use machine. Go ahead and run the installer for Node.  
+			</p>
+
+			<p>On the fourth page of the install wizard you will be asked if you want to automatically install the necessary tools for Node.  It also mentions this will install Chocolatey.  Chocolatey is a software 
+				automation management tool.  For our purposes, installing Chocolatey will help in the long run since we can use it to install Caddy.  If this is something you aren’t comfortable with, you can follow 
+				the instructions at the link in the installer.  I will proceed assuming you have selected to automatically install the tools and Chocolatey. 
+			</p>
+
+			<p><b>This process will consume over <u>three gigs of space and will take some time</u>.  It might even error out.  If it does error out, just press ctrl+c a few times to close the window then move on</b>  
+			</p>
+
+			<p>Once we have node installed and our Foundry files extracted we are going to run a quick test to make sure everything we've done so far is correct.  We are going to navigate to your Foundry folder. Then enter 
+				the "resources folder". Then enter the "app" folder. Make sure no files or folders are selected or highlighted, move your cursor to an empty space, hold the SHIFT key and right click.  This should 
+				bring up a context menu.  In that context menu you should see "Open in Terminal" or something similar.  Powershell should work fine but if you have the Linux subsystem installed you might also see an 
+				option for Linux shell but we don't want that.  We are looking for either "terminal" or "powershell".
+			</p>
+
+			<p>Once you have the terminal window open and you are inside the "app" folder, enter the following into the terminal window, (without quotes) "node main.js". This is telling Node to start up a webserver
+				to host the main.js file.  The main.js file is what engages Foundry to run. 
+			</p>
+
+			<p>Some time might go by but you should eventually see serveral lines of text and at the bottom of those lines you should see "server started and listening on port 30000".  If you can see that, <b>congratulations!
+				You are now self hosting Fourndry VTT</b>! Open a browser window and enter 127.0.0.1:30000 or localhost:30000. You should see the Foundry License Key Activation window. Now, if you are going to be hosting your
+				groups locally, you can stop here.  All your players need is your internal IP address (192.168.1.XXX or 10.1.10.XXX).  While they are connected to your network, they can just open a browser window, enter your
+				internal IP addres and add ":30000" at the end and they should be able to access your Foundry server.  Remember, this assumes your Node server is running. If you are planning to have folks connect from
+				the Internet, we have a few more steps to go. 
+			</p>
+
+			<p><b>Keep in mind, if you restart the machine Node is running on or stop Node manually, you will need to restart it.  This guide will not be getting into automation in any real depth.  I will leave that for
+				you to discover!</b> 
+			</p>
 			
-			<h3 id="pythonProgramming">Python Programming</h3>
-			<h4>Level 4</h4>
-			<p>Maecenas in diam non dolor laoreet ultrices et non ex. Etiam eget ante tortor. Integer vel sagittis tellus,
-			id laoreet
-			dolor. Phasellus tincidunt nec velit quis semper. Quisque sed erat aliquet, euismod neque et, consectetur
-			nunc. Donec
-			sed augue nisi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; In
-			aliquet, arcu
-			et ullamcorper venenatis, ipsum ipsum ultrices ipsum, luctus eleifend risus felis eu neque. Sed neque diam,
-			imperdiet ac
-			imperdiet sed, vestibulum eget odio. Proin condimentum lorem non sem facilisis, et ullamcorper libero
-			pulvinar.
-			Pellentesque a nisl odio. Aliquam eget ante nec libero hendrerit ultrices.</p>
+			<h3 id="settingUpAndRunningCaddy">Setting Up and Running Caddy</h3>
+			<!--h4>Level 5</h4>-->
+				<p></p>
+
+			<h3 id="portForwarding"> Port Forwarding</h3>
+				<p></p>
 			
-			<h3 id="machineLearning">Machine Learning</h3>
-			<h4>Level 5</h4>
-			<p>Vestibulum neque metus, semper nec maximus quis, egestas vel nibh. Aliquam tellus mi, egestas vitae nibh a,
-			auctor
-			luctus augue. Curabitur lorem lectus, lobortis eu auctor non, sodales a turpis. Duis molestie enim sed lorem
-			varius, sed
-			aliquet diam commodo. Ut finibus tortor arcu, ac porta velit consequat tincidunt. Vestibulum ut enim at
-			magna sagittis
-			porttitor quis nec mauris. Praesent eget eros felis. Curabitur ultrices fermentum risus eget maximus. Nulla
-			ornare, erat
-			dignissim malesuada vestibulum, eros risus interdum mauris, eu consequat enim nunc nec augue.</p>
-			
-			<h3 id="interviewPrep">Interview Prep</h3>
-			<h4>Level 6</h4>
-			<p>Nulla venenatis felis aliquet, sodales urna nec, laoreet nisi. Duis vitae condimentum metus, vitae
-			pellentesque tellus.
-			Cras vitae magna elit. Etiam porttitor bibendum ligula quis aliquam. Pellentesque quis metus scelerisque est
-			blandit
-			scelerisque. Nunc finibus, mi a tincidunt lacinia, enim metus elementum mi, at tincidunt orci quam quis
-			sapien. Donec
-			sollicitudin augue feugiat, commodo risus ac, luctus massa. Phasellus suscipit nulla nunc. Phasellus euismod
-			in arcu id
-			pulvinar. Etiam varius purus quis efficitur commodo. Fusce fermentum dictum sapien.</p>
+			<h3 id="finalTests">Final Tests</h3>
+			<!--<h4>Level 6</h4>-->
+				<p>Nulla venenatis felis aliquet, sodales urna nec, laoreet nisi. Duis vitae condimentum metus, vitae
+				pellentesque tellus.
+				Cras vitae magna elit. Etiam porttitor bibendum ligula quis aliquam. Pellentesque quis metus scelerisque est
+				blandit
+				scelerisque. Nunc finibus, mi a tincidunt lacinia, enim metus elementum mi, at tincidunt orci quam quis
+				sapien. Donec
+				sollicitudin augue feugiat, commodo risus ac, luctus massa. Phasellus suscipit nulla nunc. Phasellus euismod
+				in arcu id
+				pulvinar. Etiam varius purus quis efficitur commodo. Fusce fermentum dictum sapien.
+			</p>
+
+			<h3 id="finalTests">Final Tests</h3>
+
+			<p></p>		
+
 			</div>	
 	</div>
 </body>
