@@ -59,7 +59,7 @@
 					I will point it out later when it is more appropriate, but I <b>HIGHLY</b> suggest watching  <a href=https://www.youtube.com/watch?v=ey4u7OUAF3c>Network Chuck's video</a> on Cloudflare 
 					Zero Trust Tunnels.  
 					It eliminates the need for both port forwarding and reverse proxies since Cloudflare handles those on their end; its amazing.  By the time I learned about it I already had 
-					Caddy set up to do the same thing so there were some conlifcts and I didn't take the time to change my process.  Once I lean more into Virtual Machines, I plan to revisit this
+					Caddy set up to do the same thing so there were some conlifcts and I didn't take the time to change my process.  Once I lean more into hypervisors, I plan to revisit this
 				</p>
 
 				<p>With that out of the way, let’s get into this mess.
@@ -77,7 +77,7 @@
 				</p>
 
 				<p> An external, or public, IP address  is the IP address that your router uses to send/receive data OUTSIDE of the firewall that is part of the router.
-					These numbers are different. When it comes to port forwarding we are going to need to know our external IP address so we can forward connections from our website domain to 
+					 When it comes to port forwarding we are going to need to know our external IP address so we can forward connections from our website domain to 
 					the machine hosting Foundry.
 				</p>
 				
@@ -108,7 +108,7 @@
 			
 			<h3 id="installation">Installation</h3>
 			<!--<h4>Level 3</h4>-->
-				<p>The first step is to download the Linux/NodeJS version of Froundry.  There is no executeable for this since we will be using Node to run Foundry on a web server.  Just extract the files do the desktop.
+				<p>The first step is to download the Linux/NodeJS version of Froundry.  There is no executeable for this since we will be using Node to run Foundry on a web server.  Just extract the files to the desktop.
 					</p>
 				
 				<p>The next step is install Node.js.  This is the webserver that will run Foundry. </p>
@@ -148,7 +148,7 @@
 			<p>Some time might go by but you should eventually see serveral lines of text and at the bottom of those lines you should see "server started and listening on port 30000".  If you can see that, <b>congratulations!
 				You are now self hosting Fourndry VTT</b>! Open a browser window and enter 127.0.0.1:30000 or localhost:30000. You should see the Foundry License Key Activation window. Now, if you are going to be hosting your
 				groups locally, you can stop here.  All your players need is your internal IP address (192.168.1.XXX or 10.1.10.XXX).  While they are connected to your network, they can just open a browser window, enter your
-				internal IP addres and add ":30000" at the end and they should be able to access your Foundry server.  Remember, this assumes your Node server is running. If you are planning to have folks connect from
+				internal IP addres and add ":30000" (192.168.1.XXX:30000) at the end and they should be able to access your Foundry server.  Remember, this assumes your Node server is running. If you are planning to have folks connect from
 				the Internet, we have a few more steps to go. 
 			</p>
 
@@ -158,7 +158,54 @@
 			
 			<h3 id="settingUpAndRunningCaddy">Setting Up and Running Caddy</h3>
 			<!--h4>Level 5</h4>-->
-				<p></p>
+				<p>Caddy was, in my experience, the largest hassle in this whole journey.  It is primarily developed for Linux and so most of the documentation out there uses Linux for examples.  Now, this isn’t a 
+					show-stopper or anything, but I did end up getting bogged down in the minutiae of adjusting commands for Windows.  This is where <a href=https://www.youtube.com/watch?v=ey4u7OUAF3c>Network Chuck's video</a> can really shine. So you can avoid all of 
+					the issues I had and have everything set up and ready to go in a few minutes.  All that said…let’s go over what we need to do for Caddy.  
+				</p>
+
+				<p>We are going to use Chocolatey to install Caddy. Open a terminal window and enter “choco install caddy”.  This will download some packages and ask you if you want to install them.  Press “y” to 
+					install. 
+				</p>
+
+				<p>At this point Caddy is installed in a hidden folder called program data.  Admittedly, this isn’t a huge deal but if you want to move it you could.  The more important thing is creating your Caddy file so we can 
+					tell Caddy what to do when folks try to connect to our Foundry Node server.  The caddy file needs to not have an extension so we might need to enable file extension in Windows Explorer.
+				</p>
+
+				<p>By default, file extensions are hidden in Windows.  This is to prevent people from accidentally changing a file extension and making it unusable.  In our case, if you only have regular ol’ Notepad,
+					 you are going to need to remove the extension of our Caddyfile.
+				</p>
+
+				<p>In a Windows Explorer window, select the “view” button along the top.  From that menu find “show” at the bottom, then select “file name extensions”.  This will let us change the extensions on our Caddy file and allow Caddy 
+					to use it properly.  While we are at it, you might as well enable “hidden items” as well.  It’s not necessary for us right now but it’s good to be able to see everything on your machines. 
+				</p>
+
+				<p>We are now going to create a text file called caddyfile - it should not have an extension. This means you will likely have to remove the .txt extension. Copy the text below into the file, save it, then 
+					remove the extension if you have to.  
+				</p>
+
+				<p><b>NOTE: I truly don’t remember where I got this config from.  It’s most likely from the Foundry Reddit, but I can’t find it.  Thanks, whoever you are out there.</b>
+				</p>
+
+				<p># A CONFIG SECTION FOR YOUR HOSTNAME</p>
+					<p>your.hostname.com  {</p>
+						<p># PROXY ALL REQUEST TO PORT 30000</p>
+						</p>reverse_proxy localhost:30000</p>
+					}
+				</p>
+
+				<p>Save the file as caddyfile and remove the extension if necessary.  For our purposes, you can save it to the desktop. We are going to need to point Caddy to this caddyfile when we launch it. Open a terminal window as administrator and 
+					type 
+					<p>“caddy run --config c:\users\youraccountname\desktop\caddyfile”.</p>  
+					Obviously, youaccountname needs to be changed to whatever the name of your account on your machine is. 
+				</p>
+
+				<p>This caddyfile is going to tell Caddy to run our reverse proxy for connections on port 30000, which is the default port that Foundry listens on. In grossly oversimplified terms, a reverse 
+					proxy encrypts and decrypts traffic and provides a layer of abstraction and control to help manage network traffic between clients and server.
+				</p>
+
+				<p>And with that we should have our Caddy reverse proxy  server setup along with SSL!  Yay! “Can people connect to my Foundry server and play yet?” you might ask.  Sadly, the answer is “not yet”.  
+					The last thing we need to tackle is port forwarding.
+				</p>
 
 			<h3 id="portForwarding"> Port Forwarding</h3>
 				<p></p>
