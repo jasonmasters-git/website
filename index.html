@@ -50,11 +50,11 @@
 			<!--<img src="./images/dice.jpg">-->
 
 				<p>UPDATED: 2/16/25: This guide was writting in the summer of 2024 as I was beginning my journey.  This guide was originally written for Windows.  I have since moved on to using 
-					various flvors of Linux for hosting (Ubuntu sever in particular). That being said, I will leave the Windows sections in as other might find them useful.  I have also migrated
+					various flavors of Linux for hosting (Ubuntu Sever in particular). That being said, I will leave this as a Windows guide as other might find it useful.  I have also migrated
 					my set up from using Caddy to using Cloudflare Zero Trust Tunnels.  I will leave the Caddy sections in as well.
 				</p>
 			
-				<p>Disclaimer: This is not the most elegant or technical method to get a self-hosted Foundry VTT setup running.  Reddit, the Foundry Discord, and even GitHub are bound to have
+				<p>Disclaimer: This is not the most elegant or technical method to get a self-hosted Foundry VTT setup running.  <a href=https://www.reddit.com/r/FoundryVTT/>Reddit</a>, the Foundry Discord, and even GitHub are bound to have
 					 more elegant, and likely more complete, guides to achieving what I do here. 
 					This site started as a way for me to log my journey into more advanced technical spaces (self hosting, virtual machines, reverse proxies, etc.) as well as learning basic HTML and CSS.  
 					It was an incredibly fun and rewarding journey that I am very glad I took. I also plan on creating a series of videos showing the steps I took.  These will come in the future.
@@ -67,7 +67,7 @@
 					Caddy set up to do the same thing so there were some conlifcts and I didn't take the time to change my process.  Once I lean more into hypervisors, I plan to revisit this
 				</p>
 
-				<p>With that out of the way, let’s get into this mess.
+				<p>With that out of the way, let's get into this mess.
 				</p>
 
 			<h3 id="domains"> Domains and Registrars</h3>
@@ -141,24 +141,24 @@
 			</p>
 
 			<p>Once we have node installed and our Foundry files extracted we are going to run a quick test to make sure everything we've done so far is correct.  We are going to navigate to your Foundry folder. Then enter 
-				the "resources folder". Then enter the "app" folder. Make sure no files or folders are selected or highlighted, move your cursor to an empty space, hold the SHIFT key and right click.  This should 
+				the "resources" folder". Then enter the "app" folder. Make sure no files or folders are selected or highlighted, move your cursor to an empty space, hold the SHIFT key and right click.  This should 
 				bring up a context menu.  In that context menu you should see "Open in Terminal" or something similar.  Powershell should work fine but if you have the Linux subsystem installed you might also see an 
 				option for Linux shell but we don't want that.  We are looking for either "terminal" or "powershell".
 			</p>
 
 			<p>Once you have the terminal window open and you are inside the "app" folder, enter the following into the terminal window, (without quotes) "node main.js". This is telling Node to start up a webserver
-				to host the main.js file.  The main.js file is what engages Foundry to run. 
+				to host the main.js file.  The main.js file is what makes Foundry accessible via a web browser. 
 			</p>
 
 			<p>Some time might go by but you should eventually see serveral lines of text and at the bottom of those lines you should see "server started and listening on port 30000".  If you can see that, <b>congratulations!
 				You are now self hosting Fourndry VTT</b>! Open a browser window and enter 127.0.0.1:30000 or localhost:30000. You should see the Foundry License Key Activation window. Now, if you are going to be hosting your
 				groups locally, you can stop here.  All your players need is your internal IP address (192.168.1.XXX or 10.1.10.XXX).  While they are connected to your network, they can just open a browser window, enter your
-				internal IP addres and add ":30000" (192.168.1.XXX:30000) at the end and they should be able to access your Foundry server.  Remember, this assumes your Node server is running. If you are planning to have folks connect from
-				the Internet, we have a few more steps to go. 
+				internal IP addres and add ":30000" (192.168.1.XXX:30000) at the end and they should be able to access your Foundry server.  Remember, this assumes your Node server is running. If you are planning to have folks connect via
+				the Internet/outside your network, we have a few more steps to go. 
 			</p>
 
 			<p><b>Keep in mind, if you restart the machine Node is running on or stop Node manually, you will need to restart it.  This guide will not be getting into automation in any real depth.  I will leave that for
-				you to discover!</b> 
+				you to discover.</b> 
 			</p>
 			
 			<h3 id="settingUpAndRunningCaddy">Setting Up and Running Caddy</h3>
@@ -191,17 +191,22 @@
 				<p><b>NOTE: I truly don’t remember where I got this config from.  It’s most likely from the Foundry Reddit, but I can’t find it.  Thanks, whoever you are out there.</b>
 				</p>
 
+				<p>-------------------------------------------------</p>
+
 				<p># A CONFIG SECTION FOR YOUR HOSTNAME</p>
 					<p>your.hostname.com  {</p>
 						<p># PROXY ALL REQUEST TO PORT 30000</p>
 						</p>reverse_proxy localhost:30000</p>
 					}
+					<p>-------------------------------------------------</p>
+					<p>"your.hostname.com" needs to be replaced with your actual domain name.  If you are using Cloudflare, you will need to add your public IP address to the "Content" section of the DNS record for your domain.   
+					</p>
 				</p>
 
 				<p>Save the file as caddyfile and remove the extension if necessary.  For our purposes, you can save it to the desktop. We are going to need to point Caddy to this caddyfile when we launch it. Open a terminal window as administrator and 
 					type 
 					<p>“caddy run --config c:\users\youraccountname\desktop\caddyfile”.</p>  
-					Obviously, youaccountname needs to be changed to whatever the name of your account on your machine is. 
+					Obviously, youraccountname needs to be changed to whatever the name of your account on your machine is. 
 				</p>
 
 				<p>This caddyfile is going to tell Caddy to run our reverse proxy for connections on port 30000, which is the default port that Foundry listens on. In grossly oversimplified terms, a reverse 
@@ -213,7 +218,36 @@
 				</p>
 
 			<h3 id="portForwarding"> Port Forwarding</h3>
-				<p></p>
+			<p>	NOTE:  I am going to reference <a href=https://www.youtube.com/watch?v=ey4u7OUAF3c>Network Chuck's video</a>here again.  As with the Caddy section, a Cloudflare Zero trust tunnel will elimate the need
+				need to do any port forwarding on your router.  I would suggest going this route as the fewer holes in a firewall the better. 
+			</p>	
+			
+			<p>Port forwading is telling your router/model to direct network traffic to particular ports on particular IP addresses.  Each router/modem has a slightly different interface so I cannot provide exact 
+					instructions for your particular model.  I can, however, provide some general guidelines.  You will need to log into your router/modem.  This is usually done by entering a specific IP address into a
+					browser window.  The IP address is usually something like 192.168.1.1 or, in my case, 192.168.1.254.  If you are connected via Wifi, the address might be something like 10.1.10.1.  When in doubt, check
+					the actual piece of hardware.   There are often stickers on the bottom or back of the device that will have the IP address and login information.  The section we are concerned with is usually called
+					“Port Forwarding” or “NAT” or “Gaming”.  It might be under “Advanced” or “Security”.  If you can’t find it, Google the model of your router/modem and “port forwarding”.  You should be able to find
+					some instructions.
+				</p>
+
+			<p>In order to get incoming traffic directed to our Foundry server, we will need to set up some rules.  We are looking for set up forwards for three different ports.  
+				<ul>
+					<li>Port 80 (HTTP)</li>
+					<li>Port 443 (HTTPS)</li>
+					<li>Port 30000 (Foundry)</li>
+				</ul>
+			These are the ports need to be forwarding to the IP address of the maching that is running your Froundry server. When making these rules, you may be able to select the name of the device you want these to be
+			forwarded to.  If you can, select the name of the machine that is running Foundry.  If you can't, you will need to find the internal IP address of the machine running Foundry.  This can be done by opening a terminal window
+			and typing "ipconfig" (Windows) or "ifconfig" (Linux).  You are looking for the IPv4 address.  It will be something like 192.168.1.XXX or 10.1.10.XXX. 
+			</p>
+
+			<p>Depending on your ISP, ports 80 or 443 might have things running on them.  In my case, when setting up forwarding for port 80 an alert saying that ATT U-verse might stop working properly appeared.
+				As I don't have that service I wasn't concerned, but it is something to be aware of.
+			 </p>
+
+			 <p>At this point, Foundry should be all set on the local side.  The last things to take care of are setting up your domain so when someone enters the web address of your server, they are pointed to your
+				public IP address to access Foundry.
+			</p>
 			
 			<h3 id="finalTests">Final Tests</h3>
 			<!--<h4>Level 6</h4>-->
